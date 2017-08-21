@@ -75,6 +75,10 @@ contract RemoteWallet {
         return 0;
     }
     
+    function EtherDeltaTokenBalance(address tokenAddress) constant returns (uint) {
+        return deltaDeposits.balanceOf(tokenAddress, this);
+    }
+    
     function EtherDeltaWithdrawToken(address tokenAddress, uint amount) payable external {
         if (msg.sender!=owner) throw;
         deltaDeposits.withdrawToken(tokenAddress, amount);
