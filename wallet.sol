@@ -26,7 +26,6 @@ contract RemoteWallet {
     
     address public owner;
     string public version;
-    
     etherDelta public deltaDeposits;
     address public ethDeltaDepositAddress;
     
@@ -52,10 +51,16 @@ contract RemoteWallet {
         token.transfer(sendTo, amount);
     }
     
-    function changeEtherDeltaDeposit(address newOwner) external {
+    function transferFromToken(address tokenAddress, address sendTo, address sendFrom, uint256 amount) external {
         if (owner!=msg.sender) revert();
-        ethDeltaDepositAddress = newOwner;
-        deltaDeposits = etherDelta(newOwner);
+        Token token = Token(tokenAddress);
+        token.transferFrom(sendTo, sendFrom, amount);
+    }
+    
+    function changeEtherDeltaDeposit(address newEthDelta) external {
+        if (owner!=msg.sender) revert();
+        ethDeltaDepositAddress = newEthDelta;
+        deltaDeposits = etherDelta(newEthDelta);
     }
     
     function changeOwner(address newOwner) external {
