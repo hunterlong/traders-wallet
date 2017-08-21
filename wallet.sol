@@ -15,6 +15,7 @@ contract etherDelta {
 }
 
 contract Token {
+    function totalSupply() constant returns (uint256 supply);
     function approve(address _spender, uint256 _value) returns (bool success);
     function allowance(address _owner, address _spender) constant returns (uint256 remaining);
     function balanceOf(address _owner) constant returns (uint256 balance);
