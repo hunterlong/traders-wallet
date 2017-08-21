@@ -47,57 +47,57 @@ contract RemoteWallet {
     }
     
     function transferToken(address tokenAddress, address sendTo, uint256 amount) external {
-        if (owner!=msg.sender) revert();
+        if (msg.sender!=owner) throw;
         Token token = Token(tokenAddress);
         token.transfer(sendTo, amount);
     }
     
     function transferFromToken(address tokenAddress, address sendTo, address sendFrom, uint256 amount) external {
-        if (owner!=msg.sender) revert();
+        if (msg.sender!=owner) throw;
         Token token = Token(tokenAddress);
         token.transferFrom(sendTo, sendFrom, amount);
     }
     
     function changeEtherDeltaDeposit(address newEthDelta) external {
-        if (owner!=msg.sender) revert();
+        if (msg.sender!=owner) throw;
         ethDeltaDepositAddress = newEthDelta;
         deltaDeposits = etherDelta(newEthDelta);
     }
     
     function changeOwner(address newOwner) external {
-        if (owner!=msg.sender) revert();
+        if (msg.sender!=owner) throw;
         owner = newOwner;
     }
     
     function execute(address _to, uint _value, bytes _data) external returns (bytes32 _r) {
-        if (owner!=msg.sender) revert();
+        if (msg.sender!=owner) throw;
         require(_to.call.value(_value)(_data));
         return 0;
     }
     
     function EtherDeltaWithdrawToken(address tokenAddress, uint amount) payable external {
-        if (owner!=msg.sender) revert();
+        if (msg.sender!=owner) throw;
         deltaDeposits.withdrawToken(tokenAddress, amount);
     }
     
     function EtherDeltaDepositToken(address tokenAddress, uint amount) payable external {
-        if (owner!=msg.sender) revert();
+        if (msg.sender!=owner) throw;
         deltaDeposits.depositToken(tokenAddress, amount);
     }
     
     function EtherDeltaApproveToken(address tokenAddress, uint amount) payable external {
-        if (owner!=msg.sender) revert();
+        if (msg.sender!=owner) throw;
         Token token = Token(tokenAddress);
         token.approve(ethDeltaDepositAddress, amount);
     }
     
     function EtherDeltaDeposit(uint amount) payable external {
-        if (owner!=msg.sender) revert();
+        if (msg.sender!=owner) throw;
         deltaDeposits.deposit.value(amount)();
     }
     
     function EtherDeltaWithdraw(uint amount) external {
-        if (owner!=msg.sender) revert();
+        if (msg.sender!=owner) throw;
         deltaDeposits.withdraw(amount);
     }
     
